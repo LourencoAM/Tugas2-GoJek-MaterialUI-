@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -30,7 +30,8 @@ const styles = theme => ({
     flex: "1 0 auto"
   },
   cover: {
-    width: 171
+    width: 137,
+    height: 137
   },
   controls: {
     display: "flex",
@@ -48,128 +49,117 @@ const styles = theme => ({
   }
 });
 
-const cards = [
-  {
-    id: 1,
-    number: 0,
-    nama: "Melted Cheese Whopper®",
-    price: 25000,
-    gambar:
-      "http://www.burgerking.id/uploads/products/7ba008762297246d8d05981033c3999e.png"
-  },
-  {
-    id: 2,
-    number: 0,
-    nama: "Whopperdamaian",
-    price: 25000,
-    gambar:
-      "https://assets.limetray.com/assets/user_images/menus/compressed/1555306360_WhopperDamaian.jpg"
-  },
-  {
-    id: 3,
-    number: 0,
-    nama: "Quattro Cheese Whopper",
-    price: 30000,
-    gambar:
-      "http://www.burgerking.id/uploads/products/6c2845017e47cddc0fc09a03dd8eb0bd.png"
-  },
-  {
-    id: 4,
-    number: 0,
-    nama: "Whopper® Rasher Cheese",
-    price: 30000,
-    gambar:
-      "http://www.burgerking.id/uploads/products/6f05003d0df4c2c82057d19476c5ba2b.png"
-  },
-  {
-    id: 5,
-    number: 0,
-    nama: "Steakhouse BBQ",
-    price: 30000,
-    gambar:
-      "http://www.burgerking.id/uploads/products/bf27062baa4c80f15f21e1f2010a9f0a.png"
-  },
-  {
-    id: 6,
-    number: 0,
-    nama: "Whopper®",
-    price: 20000,
-    gambar:
-      "http://www.burgerking.id/uploads/products/bb705136f6172ad5d6d0e900258a4b9a.png"
-  }
-];
+class Menu extends Component {
+  state = {
+    menus: [],
+    cards: [
+      {
+        id: 1,
+        number: 0,
+        nama: "Melted Cheese Whopper®",
+        price: 25000,
+        gambar:
+          "http://www.burgerking.id/uploads/products/7ba008762297246d8d05981033c3999e.png"
+      },
+      {
+        id: 2,
+        number: 0,
+        nama: "Whopperdamaian",
+        price: 25000,
+        gambar:
+          "https://assets.limetray.com/assets/user_images/menus/compressed/1555306360_WhopperDamaian.jpg"
+      },
+      {
+        id: 3,
+        number: 0,
+        nama: "Quattro Cheese Whopper",
+        price: 30000,
+        gambar:
+          "http://www.burgerking.id/uploads/products/6c2845017e47cddc0fc09a03dd8eb0bd.png"
+      },
+      {
+        id: 4,
+        number: 0,
+        nama: "Whopper® Rasher Cheese",
+        price: 30000,
+        gambar:
+          "http://www.burgerking.id/uploads/products/6f05003d0df4c2c82057d19476c5ba2b.png"
+      },
+      {
+        id: 5,
+        number: 0,
+        nama: "Steakhouse BBQ",
+        price: 30000,
+        gambar:
+          "http://www.burgerking.id/uploads/products/bf27062baa4c80f15f21e1f2010a9f0a.png"
+      },
+      {
+        id: 6,
+        number: 0,
+        nama: "Whopper®",
+        price: 20000,
+        gambar:
+          "http://www.burgerking.id/uploads/products/bb705136f6172ad5d6d0e900258a4b9a.png"
+      }
+    ],
+    total: 0
+  };
+  tambahtotalHarga = (price, card) => {
+    this.setState({
+      total: this.state.total + price,
+      menus: this.state.menus.concat(card)
+    });
+    sessionStorage.total = this.state.total + price;
+  };
 
-function MediaControlCard(props) {
-  const { classes, theme } = props;
+  kurangtotalHarga = (price, card) => {
+    this.setState({
+      total: this.state.total - price
+      //menus: this.state.menus.filter(p => p.id !== card.id)
+    });
+    sessionStorage.total = this.state.total - price;
+  };
 
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <main>
-        <div className={classes.heroUnit}>
-          <div className={classNames(classes.layout, classes.cardGrid)}>
-            <br />
-            <Grid container spacing={24}>
-              {cards.map(card => (
-                <Grid item key={card} sm={12} xs={12} lg={4}>
-                  <Card className={classes.card}>
-                    <CardMedia className={classes.cover} image={card.gambar} />
-                    <div className={classes.details}>
-                      <CardContent className={classes.content}>
-                        <Typography variant="bold">{card.nama}</Typography>
-                        <br />
-                        <Typography>Rp{card.price}</Typography>
-                      </CardContent>
-                      <div className={classes.controls}>
-                        <IconButton aria-label="Previous">
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            color="secondary"
-                          >
-                            -
-                          </Button>
-                        </IconButton>
-                        <Typography>0</Typography>
-                        <IconButton aria-label="Next">
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            color="primary"
-                          >
-                            +
-                          </Button>
-                        </IconButton>
-                      </div>
-                    </div>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+  render() {
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <main>
+          <br />
+          <Grid container spacing={24}>
+            {this.state.cards.map(card => (
+              <Grid item xs={12} lg={4}>
+                <Counter
+                  card={card}
+                  tambahTotalHarga={this.tambahtotalHarga}
+                  kurangTotalHarga={this.kurangtotalHarga}
+                  cards={this.state.cards}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </main>
+        <br />
+        <footer className={classes.footer}>
+          <div align="center">
+            <h3>Total: Rp{this.state.total}</h3>
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              href="/payment"
+            >
+              Pembayaran
+            </Button>
           </div>
-        </div>
-      </main>
-      <br />
-      <footer className={classes.footer}>
-        <div align="center">
-          <h3>Total: Rp 0</h3>
-          <Button
-            variant="contained"
-            size="small"
-            color="secondary"
-            href="/payment"
-          >
-            Pembayaran
-          </Button>
-        </div>
-      </footer>
-    </React.Fragment>
-  );
+        </footer>
+      </React.Fragment>
+    );
+  }
 }
-
-MediaControlCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+Menu.propTypes = {
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(MediaControlCard);
+export default withStyles(styles)(Menu);

@@ -60,7 +60,7 @@ const styles = theme => ({
 const cards = [
   {
     id: 1,
-    link: "menu",
+    link: "/menu",
     gambar:
       "http://theflashtoday.com/wp-content/uploads/2017/06/Burger-King-logo-feature.png"
   },

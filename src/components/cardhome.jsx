@@ -61,7 +61,7 @@ const cards = [
   {
     id: 1,
     nbutton: "Go-Food",
-    link: "go-food",
+    link: "/go-food",
     gambar:
       "https://www.goodnewsfromindonesia.id/uploads/post/large-61658247234-go-food-846971cd9193ffd74180a532f479cdfe.jpg"
   },
